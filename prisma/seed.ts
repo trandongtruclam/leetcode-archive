@@ -55,6 +55,14 @@ async function seedProblems() {
           "You are given an integer array height of length n. There are n vertical lines drawn at coordinates (i, height[i]). Find two lines that together with the x-axis form a container that can hold the most water.",
         tags: ["array", "two-pointers", "greedy"],
       },
+            {
+        slug: "test-prisma-db-hosting",
+        title: "If it can host db then ive been a fool for a year straight",
+        difficulty: "easy",
+        content:
+          "hey !",
+        tags: ["array", "two-pointers", "greedy"],
+      },
     ],
   });
   console.log(`Seeded ${problems.count} problems`);

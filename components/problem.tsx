@@ -10,8 +10,11 @@ export default async function Problem() {
         </h1>
         <ol className="list-decimal list-inside font-[family-name:var(--font-geist-sans)]">
           {problems.map((problem) => (
-            <li key={problem.difficulty} className="mb-2">
+            <li key={problem.id} className="mb-2">
               {problem.title}
+              <br/>
+              {problem.content}
+              {}
             </li>
           ))}
         </ol>
