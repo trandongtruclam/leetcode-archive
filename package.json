@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --fix",
-    "postinstall": "npx prisma generate"
+    "postinstall": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev --name init",
+    "db:push": "npx prisma db push"
   },
   "dependencies": {
     "@heroui/accordion": "2.2.26",
