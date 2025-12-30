@@ -11,7 +11,9 @@
     "postinstall": "npx prisma generate",
     "db:migrate": "npx prisma migrate dev --name init",
     "db:push": "npx prisma db push",
-    "db:seed": "npx prisma db seed"
+    "db:seed": "npx prisma db seed",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@heroui/accordion": "2.2.26",
@@ -74,6 +76,10 @@
     "@next/eslint-plugin-next": "15.5.9",
     "@react-types/shared": "3.32.1",
     "@tailwindcss/postcss": "4.1.11",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "20.5.7",
     "@types/pg": "^8.16.0",
     "@types/react": "18.3.3",
@@ -92,11 +98,14 @@
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-unused-imports": "4.1.4",
     "globals": "16.0.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "postcss": "8.5.6",
     "prettier": "3.5.3",
     "prisma": "^7.2.0",
     "tailwind-variants": "3.1.1",
     "tailwindcss": "4.1.11",
+    "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "5.6.3"
   }
