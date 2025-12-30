@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Problem {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  difficulty  String
+  content     String
+  tags        String[]
+  createdAt   DateTime @default(now())
+
+  codeSnippets CodeSnippet[]
+  userMeta     UserProblemMeta[]
+  posts        Post[]
+}
+
+model CodeSnippet {
+  id        String   @id @default(cuid())
+  lang      String
+  langSlug  String
+  code      String
+
+  problem   Problem @relation(fields: [problemId], references: [id])
+  problemId String
+}
+
+model UserProblemMeta {
+  id        String   @id @default(cuid())
+  username  String
+  slug      String
+
+  note      String?
+  status    LearningStatus
+  autoTags  String[]
+
+  updatedAt DateTime @updatedAt
+
+  problem   Problem @relation(fields: [problemId], references: [id])
+  problemId String
+
+  @@unique([username, slug])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  type      PostType
+  published Boolean  @default(false)
+
+  problemId String?
+  problem   Problem? @relation(fields: [problemId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum PostType {
+  BLOG
+  SOLUTION
+}
+
+enum LearningStatus {
+  UNREAD
+  UNDERSTOOD
+  CONFUSED
+  NEED_REVIEW
+}
