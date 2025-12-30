@@ -14,37 +14,38 @@ datasource db {
 }
 
 model Problem {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  difficulty  String
-  content     String
-  tags        String[]
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  title      String
+  difficulty String
+  content    String
+  tags       String[]
+  createdAt  DateTime @default(now())
 
   codeSnippets CodeSnippet[]
   userMeta     UserProblemMeta[]
   posts        Post[]
+  submissions  Submission[]
 }
 
 model CodeSnippet {
-  id        String   @id @default(cuid())
-  lang      String
-  langSlug  String
-  code      String
+  id       String @id @default(cuid())
+  lang     String
+  langSlug String
+  code     String
 
   problem   Problem @relation(fields: [problemId], references: [id])
   problemId String
 }
 
 model UserProblemMeta {
-  id        String   @id @default(cuid())
-  username  String
-  slug      String
+  id       String @id @default(cuid())
+  username String
+  slug     String
 
-  note      String?
-  status    LearningStatus
-  autoTags  String[]
+  note     String?
+  status   LearningStatus
+  autoTags String[]
 
   updatedAt DateTime @updatedAt
 
@@ -79,4 +80,72 @@ enum LearningStatus {
   UNDERSTOOD
   CONFUSED
   NEED_REVIEW
+}
+
+model Submission {
+  id String @id @default(cuid())
+
+  // Core fields from recentAcSubmissionList
+  submissionId String // LeetCode submission ID (use to build URL)
+  username     String
+  title        String
+  slug         String
+  timestamp    Int // UNIX timestamp
+
+  // Performance metrics
+  runtime           Int // milliseconds
+  runtimePercentile Float?
+  runtimeDisplay    String?
+
+  memory           BigInt?
+  memoryPercentile Float?
+  memoryDisplay    String?
+
+  lang       String // java, python, cpp, etc.
+  statusCode Int // 10 = Accepted
+
+  // Code & Solution
+  code  String  @db.Text
+  notes String? @db.Text
+
+  // Problem metadata
+  difficulty String?
+  topics     String[]
+  questionId String?
+
+  // Statistics
+  totalCorrect   Int?
+  totalTestcases Int?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relation
+  problemId String?
+  problem   Problem? @relation(fields: [problemId], references: [id])
+
+  trackedUser   TrackedUser? @relation(fields: [trackedUserId], references: [id])
+  trackedUserId String?
+
+  @@unique([username, submissionId])
+  @@index([username])
+  @@index([slug])
+  @@index([timestamp])
+  @@index([difficulty])
+  @@index([lang])
+}
+
+model TrackedUser {
+  id          String    @id @default(cuid())
+  username    String    @unique // LeetCode username
+  enabled     Boolean   @default(true) // Enable/disable tracking
+  lastFetched DateTime? // Lần fetch cuối cùng
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  submissions Submission[] // Relation to submissions
+
+  @@index([enabled]) // For cron job query
+  @@index([lastFetched])
 }
