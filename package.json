@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "next-app-template",
   "version": "0.0.1",
   "private": true,
@@ -65,6 +64,7 @@
     "graphql": "^16.12.0",
     "graphql-request": "^7.4.0",
     "intl-messageformat": "10.7.16",
+    "lucide-react": "^0.562.0",
     "next": "15.5.9",
     "next-themes": "0.4.6",
     "pg": "^8.16.3",

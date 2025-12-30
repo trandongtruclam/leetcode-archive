@@ -14,13 +14,13 @@ datasource db {
 }
 
 model Problem {
-  id         String   @id @default(cuid())
-  slug       String   @unique
+  id         String     @id @default(cuid())
+  slug       String     @unique
   title      String
-  difficulty String
+  difficulty Difficulty
   content    String
   tags       String[]
-  createdAt  DateTime @default(now())
+  createdAt  DateTime   @default(now())
 
   codeSnippets CodeSnippet[]
   userMeta     UserProblemMeta[]
@@ -75,6 +75,12 @@ enum PostType {
   SOLUTION
 }
 
+enum Difficulty {
+  Easy
+  Medium
+  Hard
+}
+
 enum LearningStatus {
   UNREAD
   UNDERSTOOD
@@ -109,7 +115,7 @@ model Submission {
   notes String? @db.Text
 
   // Problem metadata
-  difficulty String?
+  difficulty Difficulty?
   topics     String[]
   questionId String?
 

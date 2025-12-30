@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/core/prisma";
 
 export default async function Problem() {
   const problems = await prisma.problem.findMany();
@@ -12,7 +12,7 @@ export default async function Problem() {
           {problems.map((problem) => (
             <li key={problem.id} className="mb-2">
               {problem.title}
-              <br/>
+              <br />
               {problem.content}
               {}
             </li>
